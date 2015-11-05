@@ -35,7 +35,7 @@ PGOBENCH = ./$(EXE) bench 16 1 1000 default time
 
 ### Object files
 OBJS = benchmark.o bitbase.o bitboard.o endgame.o evaluate.o main.o \
-	material.o misc.o movegen.o movepick.o pawns.o position.o \
+	material.o misc.o movegen.o movepick.o pawns.o position.o psqt.o \
 	search.o thread.o timeman.o tt.o uci.o ucioption.o syzygy/tbprobe.o
 
 ### ==========================================================================
@@ -151,11 +151,9 @@ endif
 ifeq ($(COMP),gcc)
 	comp=gcc
 	CXX=g++
-	CXXFLAGS += -pedantic -Wno-long-long -Wextra -Wshadow
+	CXXFLAGS += -pedantic -Wextra -Wshadow
 	ifneq ($(UNAME),Darwin)
 	   LDFLAGS += -Wl,--no-as-needed
-	else
-	   LDFLAGS += -Wl
 	endif
 endif
 
@@ -175,7 +173,7 @@ endif
 ifeq ($(COMP),clang)
 	comp=clang
 	CXX=clang++
-	CXXFLAGS += -pedantic -Wno-long-long -Wextra -Wshadow
+	CXXFLAGS += -pedantic -Wextra -Wshadow
 	ifeq ($(UNAME),Darwin)
 		CXXFLAGS += -std=c++0x -stdlib=libc++
 		DEPENDFLAGS += -std=c++0x -stdlib=libc++
